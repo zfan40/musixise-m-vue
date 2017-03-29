@@ -1,0 +1,22 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "env": {
+        "browser": true,
+        "node": true,
+        "commonjs": true
+    },
+    "globals": {
+        "orbit": true,
+        "Promise": true
+    },
+    "extends": ["eslint:recommended"],
+    "rules": {
+        "no-unused-vars": ["error", { "args": "after-used" }]
+    }
+}

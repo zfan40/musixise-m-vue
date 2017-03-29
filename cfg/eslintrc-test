@@ -1,0 +1,24 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "env": {
+        "browser": true,
+        "node": true,
+        "commonjs": true,
+        "mocha": true
+    },
+    "globals": {
+        "chai": true,
+        "Promise": true
+    },
+    "extends": ["eslint:recommended"],
+    "rules": {
+        "no-unused-vars": "off",
+        "no-console": "off"
+    }
+}
