@@ -3,7 +3,7 @@
   let Musixise = require('common/js/musixiseBridge');
   let req_config={};
   let userInfo = {};
-// location.href.split('/').pop()
+
   export default {
     components: {
       'my-tab':require('common/components/my-tab.vue'),
@@ -12,7 +12,7 @@
     },
     data() {
       return {
-        musixiserId:40,//test
+        musixiserId:location.href.split('/').pop()?location.href.split('/').pop():40,
         tabs:[{name:'work',content:'作品'},{name:'live',content:'现场'}],
         musixiserInfo:{},
         songlist:[]
