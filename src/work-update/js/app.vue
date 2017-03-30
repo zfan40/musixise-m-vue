@@ -3,8 +3,8 @@
   var Musixise = require('common/js/musixiseBridge');
   var req_config={};
   var userInfo = {};
-  var workId = location.href.split('/').pop();
-  // var workId = 28;  //test
+  // var workId = location.href.split('/').pop();
+  var workId = 28;  //test
   export default {
     components: {
       'musixiser-song-cell':require('common/components/musixiser-song-cell.vue')
@@ -16,6 +16,7 @@
         newTitle:'',
         newDescription:'',
         newCover:'',
+        enableListen:0
       }
     },
     computed: {
@@ -41,6 +42,7 @@
       },
       updateWork() {
         let self= this;
+        //[result.title,result.content,result.cover] ===> api
       }
     },
     created() {
@@ -77,7 +79,7 @@
       <textarea v-model="newDescription" placeholder="作品描述"></textarea>
     </div>
     <div class="image-container">
-      <img class="uploadBtn" src="../assets/add_image.svg">
+      <img class="uploadBtn" src="../assets/add_image.svg" @click="updateImage">
       <p>更新封面</p>
 <!--       <img :src="workObj.cover"> -->
     </div>

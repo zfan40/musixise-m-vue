@@ -3,4 +3,8 @@ body,p,input,button{
 	margin:0;
 	padding:0;
 	border:none;
+    overflow: hidden;
+}
+body {
+	width:100%;
 }

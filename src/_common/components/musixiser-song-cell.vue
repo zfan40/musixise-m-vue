@@ -6,48 +6,53 @@
       workObj:{
         type:Object,
         default:function(){return {"id":29,"title":"demo02","cover":"","content":"丧心病狂 pitchshift,sustain","url":"http://oiqvdjk3s.bkt.clouddn.com/X9IHwOUm_test.txt","followStatus":0,"createdDate":"2017-03-23 16:45:13","userId":40,"collectNum":null,"lastModifiedDate":"2017-03-23 16:45:13","fileHash":"b730b516a4f34d9344e55288ec3b1245","owner":{"uid":40,"nickName":"零零柒","smallAvatar":"http://oaeyej2ty.bkt.clouddn.com/CcwtD1PN_dfg.jpg","largeAvatar":"http://oaeyej2ty.bkt.clouddn.com/CcwtD1PN_dfg.jpg"},"status":null}}
+      },
+      enableListen:{
+        type:Number,
+        default:1
       }
     },
     data() {
       return {
         title: 'artist-song-cell',
-        marqueeOutsiderWidth:0,
-        marqueeInsiderWidth:0,
         marqueeStyle:''
       }
     },
     methods: {
       onclickcell() {
-        if (Musixise.inApp) {
-          location.href="musixise://play/"+this.workObj.id;
+        if (this.enableListen) {
+          if (Musixise.inApp) {
+            location.href="musixise://play/"+this.workObj.id;
+          } else {
+            alert('前往客户端试听');
+          }          
         } else {
-          alert('前往客户端试听');
+          alert('just preview');
         }
+
       }
     },
     computed:{
-      // marqueeStyle:function(){
-      //   if (this.$refs.insider&&(this.$refs.insider.offsetWidth>this.marqueeOutsiderWidth)) {
-      //     this.marqueeOutsiderWidth=this.$refs.outsider.offsetWidth;
-      //     this.marqueeInsiderWidth=this.$refs.insider.offsetWidth;
-      //     var t = (this.marqueeInsiderWidth-this.marqueeOutsiderWidth)/MARQUEE_SPEED +'s;';
-      //     alert(t);
-      //     return '-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t;
-      //   }
-      // }
     },
     created() {
     },
     mounted() {
-      this.marqueeOutsiderWidth = this.$refs.outsider.offsetWidth
-      if (this.$refs.insider&&(this.$refs.insider.offsetWidth>this.marqueeOutsiderWidth)) {
-        this.marqueeOutsiderWidth=this.$refs.outsider.offsetWidth;
-        this.marqueeInsiderWidth=this.$refs.insider.offsetWidth;
-        var t = (this.marqueeInsiderWidth)/MARQUEE_SPEED +'s;';
+      console.log('a song cell mounted');
+      if (this.$refs.insider&&this.$refs.outsider&&(this.$refs.insider.offsetWidth>this.$refs.outsider.offsetWidth)) {
+        var t = (this.$refs.insider.offsetWidth)/MARQUEE_SPEED +'s;';
         this.marqueeStyle =  '-webkit-animation:marquee linear infinite;-o-animation:marquee linear infinite;animation:  marquee linear infinite;-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t;
+      } else {
+        this.marqueeStyle = '';
       }
     },
     updated() {
+      console.log('a song cell updated.');
+      if (this.$refs.insider&&this.$refs.outsider&&(this.$refs.insider.offsetWidth>this.$refs.outsider.offsetWidth)) {
+        var t = (this.$refs.insider.offsetWidth)/MARQUEE_SPEED +'s;';
+        this.marqueeStyle =  '-webkit-animation:marquee linear infinite;-o-animation:marquee linear infinite;animation:  marquee linear infinite;-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t;
+      } else {
+        this.marqueeStyle = '';
+      }
     }
   };
 </script>
@@ -105,7 +110,7 @@
       /*-100%正好到边*/
       @keyframes marquee {
         0%   { transform: translate(10%, 0); }
-        50% { transform: translate(-90%, 0); }
+        50% { transform: translate(-70%, 0); }
         100% { transform: translate(10%, 0); }
       }
     }
