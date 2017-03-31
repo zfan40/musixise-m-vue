@@ -13,9 +13,10 @@
     data() {
       return {
         musixiserId:40,//test
-        tabs:[{name:'work',content:'作品'},{name:'live',content:'现场'}],
+        tabs:[{name:'work',content:'作品'},{name:'live',content:'收藏作品'}],
         musixiserInfo:{},
-        songlist:[]
+        songlist:[],
+        collectlist:[]
       }
     },
     computed: {
@@ -32,8 +33,8 @@
       Musixise.getUserInfo(function(res) {
         userInfo = res;
         console.log(userInfo);
-        if (userInfo.token) {
-            req_config.headers.Authorization = 'Bearer ' + userInfo.token;
+        if (userInfo.idToken) {
+            req_config.headers.Authorization = 'Bearer ' + userInfo.idToken;
         }
         //get musixiser info
         axios.post('//api.musixise.com/api/user/detail/' + self.musixiserId, '', req_config)
@@ -68,8 +69,7 @@
     <my-tab :tabs="tabs">
       <div v-for="(tab,index) in tabs" :slot="tab.name">
         <musixiser-song-cell-list v-if="tab.name=='work'" :songlist="songlist"></musixiser-song-cell-list>
-        <!-- <div v-if="tab.name=='work'">beta</div> -->
-        <div v-if="tab.name=='live'">under dev</div>
+        <musixiser-song-cell-list v-if="tab.name=='live'" :songlist="songlist"></musixiser-song-cell-list>
       </div>
     </my-tab>
   </div>

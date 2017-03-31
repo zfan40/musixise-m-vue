@@ -23,9 +23,9 @@
         if (Musixise.inApp) {
           Musixise.getUserInfo(function(res) {
             userInfo = res;
-            console.log(userInfo);
-            if (userInfo.token) {
-              req_config.headers.Authorization = 'Bearer ' + userInfo.token;
+            alert(JSON.stringify(res));
+            if (userInfo.idToken) {
+              req_config.headers.Authorization = 'Bearer ' + userInfo.idToken;
               self.musixiserInfo.followStatus = !self.musixiserInfo.followStatus;
               var param = {
                   followId: self.musixiserInfo.id,
@@ -49,6 +49,8 @@
       }
     },
     created() {
+      alert(navigator.userAgent);
+
     },
     mounted() {
     },

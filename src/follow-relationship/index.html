@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="data-spm" content="a2h18">
+    <title>follow-relationship</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <!-- favicon -->
+    <link href="//gw.alicdn.com/tps/TB1iLmHLXXXXXbXXXXXXXXXXXXX-32-32.png" rel="shortcut icon" type="image/x-icon">
+<% var buildOptions = htmlWebpackPlugin.options.buildOptions; %>
+<% if(buildOptions.debug){ %>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+<% } %>
+    <script inline src="../_common/pre-common.js"></script>
+    <link inline-mode rel="stylesheet" href="<%= buildOptions.resourceBase %>/index.css">
+</head>
+
+<body data-spm="" >
+
+    <div id="app"></div>
+
+<% if(buildOptions.debug){ %>
+    <% if(buildOptions.local){ %>
+    <script type="text/javascript" src="../_common/aplus.js" async defer></script>
+    <script type="text/javascript" id="aplus-sufei" src="../_common/aplus-sufei.js" async defer></script>
+
+    <% }else{ %>
+    <script type="text/javascript" src="//g.alicdn.com/alilog/wlog/0.2.10/??aplus_wap.js,spm_wap.js,spmact_wap.js" async defer></script>
+    <script type="text/javascript" id="aplus-sufei" src="//g.alicdn.com/secdev/sufei_data/2.0.4/index.js" async defer></script>
+    <% } %>
+<% } %>
+
+<% if(buildOptions.local){ %>
+    <script inline src="../_common/post-common.js"></script>
+<% }else{ %>
+    <script src="//g.alicdn.com/??music/m-lib/0.1.6/es6-promise/3.0.2/dist/es6-promise.min.js,music/orbit-react/0.0.6/vue/2.1.6/vue.runtime.min.js"></script>
+<% } %>
+
+<% if(buildOptions.debug){ %>
+    <script id="orbitMtopLogger" src="//g.alicdn.com/music/orbit-logger/0.0.2/logger.js"></script>
+<% } %>
+    <script inline-mode charset="utf-8" src="<%= buildOptions.resourceBase %>/index.js"></script>
+</body>
+</html>

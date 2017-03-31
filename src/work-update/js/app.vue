@@ -32,8 +32,6 @@
       }
     },
     methods: {
-      load() {
-      },
       updateImage() {
         let self = this;
         Musixise.uploadImage(function(res){
@@ -42,6 +40,11 @@
       },
       updateWork() {
         let self= this;
+        axios.post('//api.musixise.com/api/work/updateWork/'+workId,JSON.stringify({content:self.newDescription,cover:self.newCover,title:self.newTitle}),req_config).then(function(res){
+          alert('更新作品成功');
+        }).catch(function(err){
+          alert('更新作品失败');
+        })
         //[result.title,result.content,result.cover] ===> api
       }
     },
@@ -49,8 +52,8 @@
       let self = this;
       Musixise.getUserInfo(function(res) {
             userInfo = res;
-            if (userInfo.token) {
-                req_config.headers.Authorization = 'Bearer ' + userInfo.token;
+            if (userInfo.idToken) {
+                req_config.headers.Authorization = 'Bearer ' + userInfo.idToken;
             }
             axios.post('//api.musixise.com/api/work/detail/' + workId, '', req_config)
               .then(function(res) {
