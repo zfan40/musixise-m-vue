@@ -25,7 +25,7 @@
             location.href="musixise://play/"+this.workObj.id;
           } else {
             alert('前往客户端试听');
-          }          
+          }
         } else {
           alert('just preview');
         }

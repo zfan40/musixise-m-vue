@@ -3,8 +3,7 @@
   var Musixise = require('common/js/musixiseBridge');
   var req_config={};
   var userInfo = {};
-  // var workId = location.href.split('/').pop();
-  var workId = 28;  //test
+  var workId = location.href.split('/').pop()?location.href.split('/').pop():28;
   export default {
     components: {
       'musixiser-song-cell':require('common/components/musixiser-song-cell.vue')
@@ -23,7 +22,7 @@
       workObj: function() {
         let result = {};
         if (!result.id) {
-          Object.assign(result,this.initWorkObj);//not changing initWorkObj  
+          Object.assign(result,this.initWorkObj);//not changing initWorkObj
         }
         result.title = this.newTitle? this.newTitle : this.initWorkObj.title;
         result.content = this.newDescription? this.newDescription : this.initWorkObj.content
@@ -133,7 +132,7 @@
       font-size: .32rem;
       display: inline-block;
       position: relative;
-      bottom: .1rem;      
+      bottom: .1rem;
     }
   }
   .preview-container {
