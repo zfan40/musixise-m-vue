@@ -1,8 +1,9 @@
 var MusixiseBridge = require('./jsbridge');
 var Util = require('./utils');
 
+// alert(navigator.userAgent);
 var env = {
-    inApp: !!(navigator.userAgent.indexOf('Musixise')>0),
+    inApp: !!(navigator.userAgent.indexOf('Musixise')>-1),
     appVersion: '0.0.1',
     getUserInfo: function(cb) {
         var self = this;

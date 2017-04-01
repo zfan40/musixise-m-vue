@@ -2,7 +2,7 @@
   var axios = require('axios');
   var Musixise = require('common/js/musixiseBridge');
   var userInfo = {};
-  var req_config = {};
+  var req_config = {headers:{}};
   export default {
     props: {
       musixiserInfo:{
@@ -23,7 +23,6 @@
         if (Musixise.inApp) {
           Musixise.getUserInfo(function(res) {
             userInfo = res;
-            alert(JSON.stringify(res));
             if (userInfo.idToken) {
               req_config.headers.Authorization = 'Bearer ' + userInfo.idToken;
               self.musixiserInfo.followStatus = !self.musixiserInfo.followStatus;
@@ -49,8 +48,6 @@
       }
     },
     created() {
-      alert(navigator.userAgent);
-
     },
     mounted() {
     },

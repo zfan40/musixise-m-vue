@@ -1,9 +1,13 @@
 <script>
   let axios = require('axios');
   let Musixise = require('common/js/musixiseBridge');
-  let req_config={};
+  let req_config={headers:{}};
   let userInfo = {};
 
+  var urlId = location.href.split('/').pop();
+  if (isNaN(urlId)) {
+    urlId = 40;
+  }
   export default {
     components: {
       'my-tab':require('common/components/my-tab.vue'),
@@ -12,7 +16,7 @@
     },
     data() {
       return {
-        musixiserId:location.href.split('/').pop()?location.href.split('/').pop():40,
+        musixiserId:urlId,
         tabs:[{name:'work',content:'作品'},{name:'live',content:'收藏作品'}],
         musixiserInfo:{},
         songlist:[],
@@ -36,6 +40,7 @@
         if (userInfo.idToken) {
             req_config.headers.Authorization = 'Bearer ' + userInfo.idToken;
         }
+
         //get musixiser info
         axios.post('//api.musixise.com/api/user/detail/' + self.musixiserId, '', req_config)
           .then(function(res) {

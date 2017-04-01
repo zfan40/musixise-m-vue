@@ -1,9 +1,13 @@
 <script>
   var axios = require('axios');
   var Musixise = require('common/js/musixiseBridge');
-  var req_config={};
+  var req_config={headers:{}};
   var userInfo = {};
-  var workId = location.href.split('/').pop()?location.href.split('/').pop():28;
+
+  var workId = location.href.split('/').pop();
+  if (isNaN(workId)) {
+    workId = 28;
+  }
   export default {
     components: {
       'musixiser-song-cell':require('common/components/musixiser-song-cell.vue')

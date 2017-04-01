@@ -2,7 +2,7 @@
   var axios = require('axios');
   var Musixise = require('common/js/musixiseBridge');
   var userInfo = {};
-  var req_config = {};
+  var req_config = {headers:{}};
   export default {
     components: {
       'musixiser-song-cell':require('common/components/musixiser-song-cell.vue')

@@ -22,6 +22,7 @@
       onclickcell() {
         if (this.enableListen) {
           if (Musixise.inApp) {
+            alert(this.workObj.id);
             location.href="musixise://play/"+this.workObj.id;
           } else {
             alert('前往客户端试听');
