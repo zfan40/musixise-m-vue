@@ -1,5 +1,6 @@
 <script>
   var Musixise = require('common/js/musixiseBridge');
+  var Vibrant = require('node-vibrant');//img color exteracter
   const MARQUEE_SPEED = 30;
   export default {
     props: {
@@ -30,7 +31,21 @@
         } else {
           alert('just preview');
         }
-
+      },
+      getImageColorCSS(imgurl) {
+        var self = this;
+        console.log('aiyoyo',imgurl);
+        Vibrant.from(imgurl).getPalette()
+          .then((palette) => {
+            console.log(palette);
+            if (palette.Vibrant) {
+              self.marqueeStyle += "color:rgb("+palette.Vibrant._rgb.toString()+");";
+            } else if (palette.LightVibrant) {
+              self.marqueeStyle += "color:rgb("+palette.LightVibrant._rgb.toString()+");";
+            } else if (palette.LightMuted) {
+              self.marqueeStyle += "color:rgb("+palette.LightMuted._rgb.toString()+");";
+            }
+        }).catch((err)=>console.log(err))
       }
     },
     computed:{
@@ -38,24 +53,25 @@
     created() {
     },
     mounted() {
-      console.log('a song cell mounted');
+      this.marqueeStyle = '';
+      this.getImageColorCSS(this.workObj.cover?this.workObj.cover:this.workObj.owner.smallAvatar);
       if (this.$refs.insider&&this.$refs.outsider&&(this.$refs.insider.offsetWidth>this.$refs.outsider.offsetWidth)) {
         var t = (this.$refs.insider.offsetWidth)/MARQUEE_SPEED +'s;';
-        this.marqueeStyle =  '-webkit-animation:marquee linear infinite;-o-animation:marquee linear infinite;animation:  marquee linear infinite;-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t;
+        this.marqueeStyle +=  '-webkit-animation:marquee linear infinite;-o-animation:marquee linear infinite;animation:  marquee linear infinite;-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t+';';
       } else {
+        this.marqueeStyle += '';
         console.log(this.$refs.insider.offsetWidth);
-        this.marqueeStyle = '';
       }
     },
     updated() {
-      console.log('a song cell updated.');
-      if (this.$refs.insider&&this.$refs.outsider&&(this.$refs.insider.offsetWidth>this.$refs.outsider.offsetWidth)) {
-        var t = (this.$refs.insider.offsetWidth)/MARQUEE_SPEED +'s;';
-        this.marqueeStyle =  '-webkit-animation:marquee linear infinite;-o-animation:marquee linear infinite;animation:  marquee linear infinite;-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t;
-      } else {
-        console.log('hehe');
-        this.marqueeStyle = '';
-      }
+      // console.log('a song cell updated.');
+      // if (this.$refs.insider&&this.$refs.outsider&&(this.$refs.insider.offsetWidth>this.$refs.outsider.offsetWidth)) {
+      //   var t = (this.$refs.insider.offsetWidth)/MARQUEE_SPEED +'s;';
+      //   this.marqueeStyle =  '-webkit-animation:marquee linear infinite;-o-animation:marquee linear infinite;animation:  marquee linear infinite;-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t;
+      // } else {
+      //   console.log('hehe');
+      //   this.marqueeStyle = '';
+      // }
     }
   };
 </script>

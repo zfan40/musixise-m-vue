@@ -34,7 +34,7 @@
     <div class="tab-container">
       <div v-for="(tab,index) in tabs" class="tab" :class="{active:index==activeTab}" :id="tab.name+'-tab'" @click="updateTab(index)">{{tab.content}}</div>
     </div>
-    <slot v-for="(slot,index) in tabs" v-if="index==activeTab" :name="slot.name"></slot>  
+    <slot v-for="(slot,index) in tabs" v-if="index==activeTab" :name="slot.name"></slot>
 
   </div>
 </template>
@@ -43,7 +43,7 @@
   @import '~common/style/_functions.scss';
   @import '~common/style/_variables.scss';
   @import '~common/style/_mixins.scss';
-  
+
   .tab-container {
     position: relative;
     width: 10rem;

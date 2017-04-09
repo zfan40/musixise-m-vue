@@ -2,7 +2,9 @@
   var axios = require('axios');
   var Musixise = require('common/js/musixiseBridge');
   var userInfo = {};
-  var req_config = {headers:{}};
+  var req_config = {headers:{"Accept": "application/json","Content-Type": "application/json"}};
+
+  var relationCode;
   export default {
     props: {
       musixiserInfo:{
@@ -25,33 +27,49 @@
             userInfo = res;
             if (userInfo.idToken) {
               req_config.headers.Authorization = 'Bearer ' + userInfo.idToken;
+
               self.musixiserInfo.followStatus = !self.musixiserInfo.followStatus;
+              if (self.musixiserInfo.followStatus) {
+                relationCode = 0;//0 is defined CODE for follow
+                self.musixiserInfo.fansNum += 1;
+              } else {
+                relationCode = 1;
+                self.musixiserInfo.fansNum -= 1;
+              }
               var param = {
-                  followId: self.musixiserInfo.id,
-                  status: self.musixiserInfo.followStatus
+                  followId: self.musixiserInfo.userId,
+                  status: relationCode
               };
+
               axios.post('//api.musixise.com/api/follow/add', JSON.stringify(param), req_config)
                   .then(function(res) {
-                      console.log('关注人成功', res);
+                      // console.log('关注人成功', res);
                   })
                   .catch(function(err) {
-                      console.log(err);
-                  }); 
+                      // console.error(err);
+                  });
             } else {
               Musixise.showToast('请登录');
             }
- 
           })
         } else {
           alert('请前往客户端');
         }
+      },
+      onClickWatchHim() {
+        location.href = "//m.musixise.com/follower/"+this.musixiserInfo.userId;
+      },
+      onClickHeWatch() {
+        location.href = "//m.musixise.com/following/"+this.musixiserInfo.userId;
       }
     },
     created() {
+
     },
     mounted() {
     },
     updated() {
+      // console.log(this.musixiserInfo);
     }
   };
 </script>
@@ -64,10 +82,10 @@
         <div class="gradient-mask"></div>
         <p class="realname">{{musixiserInfo.realname}}</p>
         <div id="relation-tab">
-          <div id="watchhim">
+          <div id="watchhim" @click="onClickWatchHim">
             <span class="superscript">{{musixiserInfo.fansNum}}</span>
           </div>
-          <div id="hewatch">
+          <div id="hewatch" @click="onClickHeWatch">
             <span class="superscript">{{musixiserInfo.followNum}}</span>
           </div>
         </div>
@@ -79,7 +97,7 @@
   @import '~common/style/_functions.scss';
   @import '~common/style/_variables.scss';
   @import '~common/style/_mixins.scss';
-  
+
   .follow-status {
     position: absolute;
     right: .5rem;

@@ -1,7 +1,7 @@
 <script>
   let axios = require('axios');
   let Musixise = require('common/js/musixiseBridge');
-  let req_config={headers:{}};
+  let req_config = {headers:{"Accept": "application/json","Content-Type": "application/json"}};
   let userInfo = {};
 
   var urlId = location.href.split('/').pop();
