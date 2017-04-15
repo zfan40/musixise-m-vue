@@ -27,7 +27,6 @@
             userInfo = res;
             if (userInfo.idToken) {
               req_config.headers.Authorization = 'Bearer ' + userInfo.idToken;
-
               self.musixiserInfo.followStatus = !self.musixiserInfo.followStatus;
               if (self.musixiserInfo.followStatus) {
                 relationCode = 0;//0 is defined CODE for follow
@@ -53,14 +52,22 @@
             }
           })
         } else {
-          alert('请前往客户端');
+          alert('请前往musixise客户端');
         }
       },
       onClickWatchHim() {
-        location.href = "//m.musixise.com/follower/"+this.musixiserInfo.userId;
+        if (this.musixiserInfo.fansNum) {
+          location.href = "//m.musixise.com/follower/"+this.musixiserInfo.userId;
+        } else {
+          Musixise.showToast(`来第一个关注${this.musixiserInfo.realname}吧！`);
+        }
       },
       onClickHeWatch() {
-        location.href = "//m.musixise.com/following/"+this.musixiserInfo.userId;
+        if (this.musixiserInfo.followNum) {
+          location.href = "//m.musixise.com/following/"+this.musixiserInfo.userId;
+        } else {
+          Musixise.showToast(`${this.musixiserInfo.realname}暂时想静静...`);
+        }
       }
     },
     created() {

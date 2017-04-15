@@ -6,7 +6,7 @@
 
   var urlId = location.href.split('/').pop();
   if (isNaN(urlId)) {
-    urlId = 40;
+    urlId = 47;
   }
   export default {
     components: {
@@ -20,6 +20,9 @@
         tabs:[{name:'work',content:'作品'},{name:'live',content:'收藏作品'}],
         musixiserInfo:{},
         songlist:[],
+        songlistReady:false,
+        favsonglist:[],
+        favsonglistReady:false,
         collectlist:[]
       }
     },
@@ -54,7 +57,18 @@
         axios.post('//api.musixise.com/api/work/getListByUid/' + self.musixiserId, '', req_config)
           .then(function(res) {
               self.songlist = res.data.data.content;
-              console.log('--- songlist ---',self.songlist);
+              self.songlistReady = true;
+              console.log('--- own songlist ---',self.songlist);
+          })
+          .catch(function(err) {
+
+          });
+        // get musixiser favorite list
+        axios.post('//api.musixise.com/api/favorite/getWorkList/' + self.musixiserId, '', req_config)
+          .then(function(res) {
+              self.favsonglist = res.data.data.content;
+              self.favsonglistReady = true;
+              console.log('--- fav songlist ---',self.favsonglist);
           })
           .catch(function(err) {
 
@@ -73,8 +87,8 @@
     <musixiser-intro :musixiserInfo="musixiserInfo"></musixiser-intro>
     <my-tab :tabs="tabs">
       <div v-for="(tab,index) in tabs" :slot="tab.name">
-        <musixiser-song-cell-list v-if="tab.name=='work'" :songlist="songlist"></musixiser-song-cell-list>
-        <musixiser-song-cell-list v-if="tab.name=='live'" :songlist="songlist"></musixiser-song-cell-list>
+        <musixiser-song-cell-list v-if="tab.name=='work' && songlistReady" :songlist="songlist"></musixiser-song-cell-list>
+        <musixiser-song-cell-list v-if="tab.name=='live' && favsonglistReady" :songlist="favsonglist"></musixiser-song-cell-list>
       </div>
     </my-tab>
   </div>
