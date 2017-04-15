@@ -107,11 +107,11 @@
     z-index: 10;
   }
   .follow-status.active {
-    background: url('/musixiser-detail/assets/active-like.svg') center center no-repeat;
+    background: url('/images/active-like.svg') center center no-repeat;
     background-size: contain;
   }
   .follow-status.inactive {
-    background: url('/musixiser-detail/assets/inactive-like.svg') center center no-repeat;
+    background: url('/images/inactive-like.svg') center center no-repeat;
     background-size: contain;
   }
   .avatar {
@@ -149,7 +149,7 @@
         margin-left: .8rem;
         width: 1rem;
         height: 1rem;
-        background: url('/musixiser-detail/assets/watchhim.svg') center center no-repeat;
+        background: url('/images/watchhim.svg') center center no-repeat;
         background-size: contain;
       }
       #hewatch {
@@ -157,7 +157,7 @@
         margin-left: .8rem;
         width: 1rem;
         height: 1rem;
-        background: url('/musixiser-detail/assets/hewatch.svg') center center no-repeat;
+        background: url('/images/hewatch.svg') center center no-repeat;
         background-size: contain;
       }
       .superscript {
