@@ -57,14 +57,14 @@
       },
       onClickWatchHim() {
         if (this.musixiserInfo.fansNum) {
-          location.href = "//m.musixise.com/follower/"+this.musixiserInfo.userId;
+          Musixise.pushWebPage("//m.musixise.com/follower/"+this.musixiserInfo.userId);
         } else {
           Musixise.showToast(`来第一个关注${this.musixiserInfo.realname}吧！`);
         }
       },
       onClickHeWatch() {
         if (this.musixiserInfo.followNum) {
-          location.href = "//m.musixise.com/following/"+this.musixiserInfo.userId;
+          Musixise.pushWebPage("//m.musixise.com/following/"+this.musixiserInfo.userId);
         } else {
           Musixise.showToast(`${this.musixiserInfo.realname}暂时想静静...`);
         }

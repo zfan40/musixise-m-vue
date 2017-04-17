@@ -6,7 +6,7 @@
 
   var urlId = location.href.split('/').pop();
   if (isNaN(urlId)) {
-    urlId = 47;
+    urlId = 40;
   }
   export default {
     components: {

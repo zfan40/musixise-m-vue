@@ -51,6 +51,14 @@ var env = {
             MusixiseBridge.callHandler('ShowToast',msg,function(res){});
         }
     },
+    pushWebPage: function(url) {
+      var self = this;
+      if (!self.inApp){
+        location.href = url;
+      } else {
+        Musixise.callHandler('PushWebPage', url);
+      }
+    },
     userInfo:{}
 }
 
