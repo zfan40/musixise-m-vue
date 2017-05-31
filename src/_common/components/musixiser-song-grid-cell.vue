@@ -4,25 +4,37 @@
   const MARQUEE_SPEED = 30;
   export default {
     props: {
-      musixiserObj:{
+      workObj:{
         type:Object,
-        default:function(){
-          return {"id":29,"username":"anonymousUser","realname":"零零柒","tel":null,"email":"3108679268@gmail.com","birth":null,"gender":null,"smallAvatar":"http://oaeyej2ty.bkt.clouddn.com/CcwtD1PN_dfg.jpg","largeAvatar":"http://oaeyej2ty.bkt.clouddn.com/CcwtD1PN_dfg.jpg","nation":null,"isMaster":null,"followStatus":0,"followNum":0,"fansNum":0,"songNum":0,"userId":40,"createdDate":"2017-03-14 13:53:00"}
-        }
+        default:function(){return {"id":29,"title":"demo02","cover":"","content":"丧心病狂 pitchshift,sustain","url":"http://oiqvdjk3s.bkt.clouddn.com/X9IHwOUm_test.txt","followStatus":0,"createdDate":"2017-03-23 16:45:13","userId":40,"collectNum":null,"lastModifiedDate":"2017-03-23 16:45:13","fileHash":"b730b516a4f34d9344e55288ec3b1245","owner":{"uid":40,"nickName":"零零柒","smallAvatar":"http://oaeyej2ty.bkt.clouddn.com/CcwtD1PN_dfg.jpg","largeAvatar":"http://oaeyej2ty.bkt.clouddn.com/CcwtD1PN_dfg.jpg"},"status":null}}
+      },
+      enableListen:{
+        type:Number,
+        default:1
       }
     },
     data() {
       return {
-        title: 'musixiser-min-cell',
+        title: 'musixiser-song-grid-cell',
         marqueeStyle:''
       }
     },
     methods: {
       onclickcell() {
-        Musixise.pushWebPage('//m.musixise.com/musixiser-detail/'+this.musixiserObj.userId);
+        if (this.enableListen) {
+          if (Musixise.inApp) {
+            alert(this.workObj.id);
+            location.href="musixise://play?id="+this.workObj.id;
+          } else {
+            alert('前往客户端试听jj');
+          }
+        } else {
+          alert('just preview');
+        }
       },
       getImageColorCSS(imgurl) {
         var self = this;
+        console.log('aiyoyo',imgurl);
         Vibrant.from(imgurl).getPalette()
           .then((palette) => {
             console.log(palette);
@@ -33,47 +45,43 @@
             } else if (palette.LightMuted) {
               self.marqueeStyle += "color:rgb("+palette.LightMuted._rgb.toString()+");";
             }
-        })
+        }).catch((err)=>console.log(err))
       }
     },
     computed:{
     },
     created() {
     },
-    updated() {
-      // console.log(this.musixiserObj);
-    },
     mounted() {
       this.marqueeStyle = '';
-      this.getImageColorCSS(this.musixiserObj.smallAvatar);
-      console.log('a musixiser-min cell mounted');
+      this.getImageColorCSS(this.workObj.cover?this.workObj.cover:this.workObj.owner.smallAvatar);
       if (this.$refs.insider&&this.$refs.outsider&&(this.$refs.insider.offsetWidth>this.$refs.outsider.offsetWidth)) {
         var t = (this.$refs.insider.offsetWidth)/MARQUEE_SPEED +'s;';
-        this.marqueeStyle +=  '-webkit-animation:marquee linear infinite;-o-animation:marquee linear infinite;animation:  marquee linear infinite;-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t;
+        this.marqueeStyle +=  '-webkit-animation:marquee linear infinite;-o-animation:marquee linear infinite;animation:  marquee linear infinite;-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t+';';
       } else {
-
+        this.marqueeStyle += '';
+        console.log(this.$refs.insider.offsetWidth);
       }
     },
     updated() {
-      // this.marqueeStyle = '';
-      // this.getImageColorCSS(this.musixiserObj.smallAvatar);
-      // console.log('a musixiser-min cell updated');
+      // console.log('a song cell updated.');
       // if (this.$refs.insider&&this.$refs.outsider&&(this.$refs.insider.offsetWidth>this.$refs.outsider.offsetWidth)) {
       //   var t = (this.$refs.insider.offsetWidth)/MARQUEE_SPEED +'s;';
-      //   this.marqueeStyle +=  '-webkit-animation:marquee linear infinite;-o-animation:marquee linear infinite;animation:  marquee linear infinite;-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t;
+      //   this.marqueeStyle =  '-webkit-animation:marquee linear infinite;-o-animation:marquee linear infinite;animation:  marquee linear infinite;-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t;
       // } else {
-      //
+      //   console.log('hehe');
+      //   this.marqueeStyle = '';
       // }
     }
   };
 </script>
 
 <template>
-    <div v-if="musixiserObj.userId" class="info" @click="onclickcell">
-        <img class="user-cover" :src="musixiserObj.smallAvatar"></img>
-        <div class="user-body">
-          <span class="user-body-title">{{musixiserObj.realname}}</span>
-          <span ref="outsider" class="user-body-desc"><p ref="insider" :style="marqueeStyle">{{musixiserObj.description?musixiserObj.description:'这家伙很屌什么都没写hlibeurig seuigs sgh ud skeh ugs sdj gkshrgksuygrsu g k sgv '}}</p></span>
+    <div v-if="workObj.id" class="info" @click="onclickcell">
+        <img class="work-cover" :src="workObj.cover?workObj.cover:workObj.owner.smallAvatar"></img>
+        <div class="work-body">
+          <span class="work-body-title">{{workObj.title}}</span>
+          <span ref="outsider" class="work-body-desc"><p ref="insider" :style="marqueeStyle">{{workObj.content}}</p></span>
         </div>
     </div>
 </template>
@@ -83,34 +91,34 @@
   @import '~common/style/_variables.scss';
   @import '~common/style/_mixins.scss';
   .info {
-    margin:.2rem .2rem .2rem .5rem;
+    position: relative;
     display: flex;
-    align-items:stretch;
+    width:3rem;
     font-size: .373rem;
     line-height: .75rem;
-    height: 2.2rem;
+    height: 3.5rem;
     border-radius: .2rem;
-    justify-content: space-between;
     background-color: #fff;
     color: #000;
+    text-align: center;
+
     /*margin: .4rem 0 .6rem;*/
-    .user-cover {
+    .work-cover {
       /*width:2.2rem;*/
       /*height: 2.2rem;*/
-      width:2.2rem;
-      border-radius:1.1rem;
+      position: absolute;
+      width:100%;
     }
-    .user-body {
-      width: 7.8rem;
+    .work-body {
+      width: 3rem;
       display:flex;
-      border-bottom:1px solid #e2e2e2;
       flex-direction: column;
       justify-content:center;
-      margin: 0 .3rem;
-      .user-body-title {
+      padding: 0 .3rem;
+      .work-body-title {
         white-space: nowrap;
       }
-      .user-body-desc {
+      .work-body-desc {
         position:relative;
         white-space: nowrap;
         line-height: .8rem;
@@ -128,7 +136,7 @@
         100% { transform: translate(10%, 0); }
       }
     }
-    .user-extra {
+    .work-extra {
       width: 1rem;
     }
   }

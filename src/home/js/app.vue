@@ -10,6 +10,8 @@
     components: {
       'musixiser-song-cell-list':require('common/components/musixiser-song-cell-list.vue'),
       'musixiser-min-cell-list':require('common/components/musixiser-min-cell-list.vue'),
+      'musixiser-grid-cell-list':require('common/components/musixiser-grid-cell-list.vue'),
+      'musixiser-song-grid-cell-list':require('common/components/musixiser-song-grid-cell-list.vue'),
       swiper,
       swiperSlide,
     },
@@ -24,9 +26,7 @@
         latestMusixisers:[],
         swiperOption: {
           // NotNextTick is a component's own property, and if notNextTick is set to true, the component will not instantiate the swiper through NextTick, which means you can get the swiper object the first time (if you need to use the get swiper object to do what Things, then this property must be true)
-          // notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
           notNextTick: true,
-          // swiper configs 所有的配置同swiper官方api配置
           autoplay: 3000,
           direction : 'horizontal',
           grabCursor : true,
@@ -40,12 +40,10 @@
           mousewheelControl : true,
           observeParents:true,
           // if you need use plugins in the swiper, you can config in here like this
-          // 如果自行设计了插件，那么插件的一些配置相关参数，也应该出现在这个对象中，如下debugger
           debugger: true,
           // swiper callbacks
-          // swiper的各种回调函数也可以出现在这个对象中，和swiper官方一样
           onTransitionStart(swiper){
-            console.log(swiper)
+            // console.log(swiper)
           },
           // more Swiper configs and callbacks...
           // ...
@@ -77,17 +75,23 @@
     },
     created() {
       let self = this;
-      self.banners = mock.data.banners;
-      self.ads = mock.data.ads;
-      self.hotMusixisers = mock.data.hotMusixisers;
-      self.hotSongs = mock.data.hosSongs;
-      self.latestMusixisers = mock.data.latestMusixisers;
-      self.latestSongs = mock.data.latestSongs;
+      // self.banners = mock.data.banners;
+      // self.ads = mock.data.ads;
+      // self.hotMusixisers = mock.data.hotMusixisers;
+      // self.hotSongs = mock.data.hosSongs;
+      // self.latestMusixisers = mock.data.latestMusixisers;
+      // self.latestSongs = mock.data.latestSongs;
 
         axios.post('//api.musixise.com/api/home','', req_config)
           .then(function(res) {
-            self.musixiserInfo = res.data.data;
+            // self.musixiserInfo = res.data.data;
             Musixise.setTitle(self.musixiserInfo.realname+'的主页');
+              self.banners = res.data.data.banners;
+              self.ads = res.data.data.ads;
+              self.hotMusixisers = res.data.data.hotMusixisers;
+              self.hotSongs = res.data.data.hosSongs;
+              self.latestMusixisers = res.data.data.latestMusixisers;
+              self.latestSongs = res.data.data.latestSongs;
           })
           .catch(function(err) {
 
@@ -138,15 +142,17 @@
 
     <div id="hot-musixiser-wrapper">
       <h2 class="wrapper-title">琴力琅琊榜</h2>
+      <musixiser-grid-cell-list :musixiserlist="hotMusixisers"></musixiser-grid-cell-list>
     </div>
 
     <div id="latest-song-wrapper">
       <h2 class="wrapper-title">新晋作品</h2>
-      <musixiser-song-cell-list :songlist="latestSongs"></musixiser-song-cell-list>
+      <musixiser-song-grid-cell-list :songlist="latestSongs"></musixiser-song-grid-cell-list>
     </div>
 
     <div id="latest-musixiser-wrapper">
       <h2 class="wrapper-title">初生牛犊</h2>
+      <musixiser-min-cell-list :musixiserlist="latestMusixisers"></musixiser-min-cell-list>
     </div>
 
     <div id="ad-wrapper">
@@ -166,5 +172,5 @@
   @import '~common/style/_variables.scss';
   @import '~common/style/_mixins.scss';
   #banner-wrapper {height:getRem(320);}
-  .wrapper-title {font-size:.43rem;}
+  .wrapper-title {font-size:.43rem;border-left:3px solid #ffcc33;padding-left:getRem(10);}
 </style>
