@@ -1,5 +1,6 @@
 <script>
   var Musixise = require('common/js/musixiseBridge');
+  var Vibrant = require('node-vibrant');//img color exteracter
   const MARQUEE_SPEED = 30;
   export default {
     props: {
@@ -18,40 +19,61 @@
     },
     methods: {
       onclickcell() {
-        location.href = '//m.musixise.com/musixiser-detail/'+this.musixiserObj.id;
+        location.href = '//m.musixise.com/musixiser-detail/'+this.musixiserObj.userId;
+      },
+      getImageColorCSS(imgurl) {
+        var self = this;
+        Vibrant.from(imgurl).getPalette()
+          .then((palette) => {
+            console.log(palette);
+            if (palette.Vibrant) {
+              self.marqueeStyle += "color:rgb("+palette.Vibrant._rgb.toString()+");";
+            } else if (palette.LightVibrant) {
+              self.marqueeStyle += "color:rgb("+palette.LightVibrant._rgb.toString()+");";
+            } else if (palette.LightMuted) {
+              self.marqueeStyle += "color:rgb("+palette.LightMuted._rgb.toString()+");";
+            }
+        })
       }
     },
     computed:{
     },
     created() {
     },
+    updated() {
+      // console.log(this.musixiserObj);
+    },
     mounted() {
+      this.marqueeStyle = '';
+      this.getImageColorCSS(this.musixiserObj.smallAvatar);
       console.log('a musixiser-min cell mounted');
       if (this.$refs.insider&&this.$refs.outsider&&(this.$refs.insider.offsetWidth>this.$refs.outsider.offsetWidth)) {
         var t = (this.$refs.insider.offsetWidth)/MARQUEE_SPEED +'s;';
-        this.marqueeStyle =  '-webkit-animation:marquee linear infinite;-o-animation:marquee linear infinite;animation:  marquee linear infinite;-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t;
+        this.marqueeStyle +=  '-webkit-animation:marquee linear infinite;-o-animation:marquee linear infinite;animation:  marquee linear infinite;-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t;
       } else {
-        this.marqueeStyle = '';
+
       }
     },
     updated() {
-      console.log('a musixiser-min cell updated.');
-      if (this.$refs.insider&&this.$refs.outsider&&(this.$refs.insider.offsetWidth>this.$refs.outsider.offsetWidth)) {
-        var t = (this.$refs.insider.offsetWidth)/MARQUEE_SPEED +'s;';
-        this.marqueeStyle =  '-webkit-animation:marquee linear infinite;-o-animation:marquee linear infinite;animation:  marquee linear infinite;-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t;
-      } else {
-        this.marqueeStyle = '';
-      }
+      // this.marqueeStyle = '';
+      // this.getImageColorCSS(this.musixiserObj.smallAvatar);
+      // console.log('a musixiser-min cell updated');
+      // if (this.$refs.insider&&this.$refs.outsider&&(this.$refs.insider.offsetWidth>this.$refs.outsider.offsetWidth)) {
+      //   var t = (this.$refs.insider.offsetWidth)/MARQUEE_SPEED +'s;';
+      //   this.marqueeStyle +=  '-webkit-animation:marquee linear infinite;-o-animation:marquee linear infinite;animation:  marquee linear infinite;-webkit-animation-duration:'+t+'-o-animation-duration:'+t+'animation-duration:'+t;
+      // } else {
+      //
+      // }
     }
   };
 </script>
 
 <template>
-    <div v-if="musixiserObj.id" class="info" @click="onclickcell">
+    <div v-if="musixiserObj.userId" class="info" @click="onclickcell">
         <img class="user-cover" :src="musixiserObj.smallAvatar"></img>
         <div class="user-body">
           <span class="user-body-title">{{musixiserObj.realname}}</span>
-          <span ref="outsider" class="user-body-desc"><p ref="insider" :style="marqueeStyle">{{musixiserObj.description?musixiserObj.description:'这家伙很屌什么都没写'}}</p></span>
+          <span ref="outsider" class="user-body-desc"><p ref="insider" :style="marqueeStyle">{{musixiserObj.description?musixiserObj.description:'这家伙很屌什么都没写hlibeurig seuigs sgh ud skeh ugs sdj gkshrgksuygrsu g k sgv '}}</p></span>
         </div>
     </div>
 </template>
@@ -61,6 +83,7 @@
   @import '~common/style/_variables.scss';
   @import '~common/style/_mixins.scss';
   .info {
+    margin:.2rem .2rem .2rem .5rem;
     display: flex;
     align-items:stretch;
     font-size: .373rem;
@@ -75,13 +98,15 @@
       /*width:2.2rem;*/
       /*height: 2.2rem;*/
       width:2.2rem;
+      border-radius:1.1rem;
     }
     .user-body {
       width: 7.8rem;
       display:flex;
+      border-bottom:1px solid #e2e2e2;
       flex-direction: column;
       justify-content:center;
-      padding: 0 .3rem;
+      margin: 0 .3rem;
       .user-body-title {
         white-space: nowrap;
       }

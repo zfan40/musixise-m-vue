@@ -2,10 +2,11 @@
   var axios = require('axios');
   var Musixise = require('common/js/musixiseBridge');
   var userInfo = {};
-  var req_config = {headers:{}};
+  var req_config = {headers:{"Accept": "application/json","Content-Type": "application/json"}};
   export default {
     components: {
-      'musixiser-song-cell':require('common/components/musixiser-song-cell.vue')
+      'musixiser-song-cell':require('common/components/musixiser-song-cell.vue'),
+      'musixiser-empty':require('./musixiser-empty.vue')
     },
     props: {
       songlist:{
@@ -31,8 +32,10 @@
 
 <template>
     <div>
-      <musixiser-song-cell v-for="(song,index) in songlist" :workObj="song"></musixiser-song-cell>
+      <musixiser-song-cell v-if="songlist && songlist.length" v-for="(song,index) in songlist" :workObj="song"></musixiser-song-cell>
+      <musixiser-empty v-if="!songlist || !songlist.length"></musixiser-empty>
     </div>
+
 </template>
 
 <style lang="scss" scoped>

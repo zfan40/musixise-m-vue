@@ -2,36 +2,38 @@
   var axios = require('axios');
   var Musixise = require('common/js/musixiseBridge');
   var userInfo = {};
-  var req_config = {headers:{}};
+  var req_config = {headers:{"Accept": "application/json","Content-Type": "application/json"}};
   export default {
     components: {
-      'musixiser-song-cell':require('common/components/musixiser-song-cell.vue')
+      'musixiser-min-cell':require('common/components/musixiser-min-cell.vue')
     },
     props: {
-      songlist:{
+      musixiserlist:{
         type:Array,
         default:function(){return[]}
       }
     },
     data() {
       return {
-        title: 'musixiser-song-cell-list',
+        title: 'musixiser-min-cell-list',
       }
     },
     methods: {
     },
     created() {
+      // console.log(this.musixiserlist);
     },
     mounted() {
     },
     updated() {
+      // console.log(this.musixiserlist);
     }
   };
 </script>
 
 <template>
     <div>
-      <musixiser-song-cell v-for="(song,index) in songlist" :workObj="song"></musixiser-song-cell>
+      <musixiser-min-cell v-for="(musixiser,index) in musixiserlist" :musixiserObj="musixiser"></musixiser-min-cell>
     </div>
 </template>
 

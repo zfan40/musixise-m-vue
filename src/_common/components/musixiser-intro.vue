@@ -2,7 +2,9 @@
   var axios = require('axios');
   var Musixise = require('common/js/musixiseBridge');
   var userInfo = {};
-  var req_config = {headers:{}};
+  var req_config = {headers:{"Accept": "application/json","Content-Type": "application/json"}};
+
+  var relationCode;
   export default {
     props: {
       musixiserInfo:{
@@ -26,32 +28,55 @@
             if (userInfo.idToken) {
               req_config.headers.Authorization = 'Bearer ' + userInfo.idToken;
               self.musixiserInfo.followStatus = !self.musixiserInfo.followStatus;
+              if (self.musixiserInfo.followStatus) {
+                relationCode = 0;//0 is defined CODE for follow
+                self.musixiserInfo.fansNum += 1;
+              } else {
+                relationCode = 1;
+                self.musixiserInfo.fansNum -= 1;
+              }
               var param = {
-                  followId: self.musixiserInfo.id,
-                  status: self.musixiserInfo.followStatus
+                  followId: self.musixiserInfo.userId,
+                  status: relationCode
               };
+
               axios.post('//api.musixise.com/api/follow/add', JSON.stringify(param), req_config)
                   .then(function(res) {
-                      console.log('关注人成功', res);
+                      // console.log('关注人成功', res);
                   })
                   .catch(function(err) {
-                      console.log(err);
-                  }); 
+                      // console.error(err);
+                  });
             } else {
               Musixise.showToast('请登录');
             }
- 
           })
         } else {
-          alert('请前往客户端');
+          alert('请前往musixise客户端');
+        }
+      },
+      onClickWatchHim() {
+        if (this.musixiserInfo.fansNum) {
+          Musixise.pushWebPage("//m.musixise.com/follower/"+this.musixiserInfo.userId);
+        } else {
+          Musixise.showToast(`来第一个关注${this.musixiserInfo.realname}吧！`);
+        }
+      },
+      onClickHeWatch() {
+        if (this.musixiserInfo.followNum) {
+          Musixise.pushWebPage("//m.musixise.com/following/"+this.musixiserInfo.userId);
+        } else {
+          Musixise.showToast(`${this.musixiserInfo.realname}暂时想静静...`);
         }
       }
     },
     created() {
+
     },
     mounted() {
     },
     updated() {
+      // console.log(this.musixiserInfo);
     }
   };
 </script>
@@ -64,10 +89,10 @@
         <div class="gradient-mask"></div>
         <p class="realname">{{musixiserInfo.realname}}</p>
         <div id="relation-tab">
-          <div id="watchhim">
+          <div id="watchhim" @click="onClickWatchHim">
             <span class="superscript">{{musixiserInfo.fansNum}}</span>
           </div>
-          <div id="hewatch">
+          <div id="hewatch" @click="onClickHeWatch">
             <span class="superscript">{{musixiserInfo.followNum}}</span>
           </div>
         </div>
@@ -79,7 +104,7 @@
   @import '~common/style/_functions.scss';
   @import '~common/style/_variables.scss';
   @import '~common/style/_mixins.scss';
-  
+
   .follow-status {
     position: absolute;
     right: .5rem;
@@ -89,11 +114,11 @@
     z-index: 10;
   }
   .follow-status.active {
-    background: url('/musixiser-detail/assets/active-like.svg') center center no-repeat;
+    background: url('/images/active-like.svg') center center no-repeat;
     background-size: contain;
   }
   .follow-status.inactive {
-    background: url('/musixiser-detail/assets/inactive-like.svg') center center no-repeat;
+    background: url('/images/inactive-like.svg') center center no-repeat;
     background-size: contain;
   }
   .avatar {
@@ -131,7 +156,7 @@
         margin-left: .8rem;
         width: 1rem;
         height: 1rem;
-        background: url('/musixiser-detail/assets/watchhim.svg') center center no-repeat;
+        background: url('/images/watchhim.svg') center center no-repeat;
         background-size: contain;
       }
       #hewatch {
@@ -139,7 +164,7 @@
         margin-left: .8rem;
         width: 1rem;
         height: 1rem;
-        background: url('/musixiser-detail/assets/hewatch.svg') center center no-repeat;
+        background: url('/images/hewatch.svg') center center no-repeat;
         background-size: contain;
       }
       .superscript {

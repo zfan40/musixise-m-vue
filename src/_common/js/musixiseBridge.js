@@ -15,6 +15,7 @@ var env = {
             } else {
                 username = Util.getCookie("a_username");
             }
+            // self.userInfo = {username:username,realname:username,idToken:'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtdXNpeGlzZTAwNyIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE0OTQyMzY3MjZ9.369e8pu9fN-TN--cdu5u2TMR0N-_mt9hS4GOPvkmrHTxj5Z-qjfY0EWxOsGV1yuQboeP1ApALEevYCsqK1-U-Q'}
             self.userInfo = {username:username,realname:username}
             cb(self.userInfo);
         } else { //app内
@@ -50,9 +51,16 @@ var env = {
             MusixiseBridge.callHandler('ShowToast',msg,function(res){});
         }
     },
+    pushWebPage: function(url) {
+      var self = this;
+      if (!self.inApp){
+        location.href = url;
+      } else {
+        Musixise.callHandler('PushWebPage', url);
+      }
+    },
     userInfo:{}
 }
 
 console.log('Env Activated');
 module.exports = env;
-
