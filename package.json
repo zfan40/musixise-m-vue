@@ -45,5 +45,9 @@
     "vue-template-compiler": "2.1.6",
     "webpack": "1.14.0",
     "webpack-dev-server": "1.16.3"
+  },
+  "dependencies": {
+    "vue-awesome-swiper": "^2.4.2",
+    "vue-flickity": "^1.0.7"
   }
 }
