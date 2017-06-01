@@ -47,6 +47,6 @@
     display:flex;
     flex-wrap:wrap;
     /*justify-content:space-around;*/
-    margin:0 .5rem;
+    margin:0 .2rem;
   }
 </style>

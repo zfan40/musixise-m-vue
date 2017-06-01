@@ -79,6 +79,7 @@
 <template>
     <div v-if="workObj.id" class="info" @click="onclickcell">
         <img class="work-cover" :src="workObj.cover?workObj.cover:workObj.owner.smallAvatar"></img>
+        <div class="work-cover-mask"></div>
         <div class="work-body">
           <span class="work-body-title">{{workObj.title}}</span>
           <span ref="outsider" class="work-body-desc"><p ref="insider" :style="marqueeStyle">{{workObj.content}}</p></span>
@@ -96,18 +97,24 @@
     width:3rem;
     font-size: .373rem;
     line-height: .75rem;
-    height: 3.5rem;
+    height: 4rem;
     border-radius: .2rem;
     background-color: #fff;
     color: #000;
     text-align: center;
-
+    margin-left: .15rem;
     /*margin: .4rem 0 .6rem;*/
     .work-cover {
       /*width:2.2rem;*/
       /*height: 2.2rem;*/
       position: absolute;
       width:100%;
+    }
+    .work-cover-mask {
+      position: absolute;
+      width:100%;
+      height:3rem;
+      background-color:rgba(0,0,0,.2);      
     }
     .work-body {
       width: 3rem;
@@ -117,6 +124,8 @@
       padding: 0 .3rem;
       .work-body-title {
         white-space: nowrap;
+        color:white;
+        z-index:2;
       }
       .work-body-desc {
         position:relative;
@@ -125,8 +134,10 @@
         height: .8rem;
         overflow:hidden;
         color:#3d3d3d;
+
         p {
           position:absolute;
+          min-width:100%;
         }
       }
       /*-100%正好到边*/
