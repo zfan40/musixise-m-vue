@@ -65,9 +65,8 @@
     text-align: center;
     /*margin: .4rem 0 .6rem;*/
     .user-cover {
-      /*width:2.2rem;*/
-      /*height: 2.2rem;*/
       width:2.2rem;
+      height:2.2rem;
       border-radius:1.1rem;
     }
     .user-body {

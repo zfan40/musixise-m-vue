@@ -141,7 +141,7 @@
     </div>
 
     <div id="hot-musixiser-wrapper">
-      <h2 class="wrapper-title">琴力琅琊榜</h2>
+      <h2 class="wrapper-title">琅琊榜</h2>
       <musixiser-grid-cell-list :musixiserlist="hotMusixisers"></musixiser-grid-cell-list>
     </div>
 
