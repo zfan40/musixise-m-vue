@@ -31,7 +31,7 @@
 <template>
   <div class="empty-section">
     <img src="http://placehold.it/350x350" alt="">
-    <p>没tm东西啊</p>
+    <!-- <p>没tm东西啊</p> -->
   </div>
 </template>
 

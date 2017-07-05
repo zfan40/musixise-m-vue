@@ -19,7 +19,7 @@
     },
     methods: {
       onclickcell() {
-        Musixise.PushWebPage = '//m.musixise.com/musixiser-detail/'+this.musixiserObj.userId;
+        Musixise.pushWebPage('//m.musixise.com/musixiser-detail/'+this.musixiserObj.userId);
       },
       getImageColorCSS(imgurl) {
         var self = this;
